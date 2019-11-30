@@ -1,25 +1,12 @@
+const { Pool } = require('pg');
 require('dotenv').config();
 
-module.exports = {
-    development: {
-        database: 'teamapi',
-        username: 'zizoh',
-        password: 'password',
-        host: '127.0.0.1',
-        dialect: 'postgres'
-    }, 
-    test: {
-        database: 'teamapi',
-        username: 'zizoh',
-        password: 'password',
-        host: '127.0.0.1',
-        dialect: 'postgres'
-    },
-    production: {
-        database: process.env.DB_NAME,
-        username: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        host: process.env.DB_HOST,
-        dialect: 'postgres'
-    }
-}
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL
+});
+
+pool.on('connect', () => {
+    console.log('Successfully connected to the database');
+});
+
+module.exports = pool;
