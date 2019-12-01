@@ -2,9 +2,12 @@ const db = require('../../../database/db');
 const Pool = require('pg').Pool
 
 const Helper = require('./Helper');
+const cloud = require('../middleware/cloudinary');
 
 const Gif = {
     createGif(req, res) {
+        const url = req.protocol + '://' + req.get('host');
+        const gifUrl = url + '../images/' + req.file.filename
         if(!req.body.title || !req.body.gifUrl) {
             return res.status(400).send('Some fields are missing');
         }
@@ -14,13 +17,17 @@ const Gif = {
             returning *`;
             const values = [
                 req.body.title,
-                req.body.gifUrl,
+                gifUrl,
                 req.user.id
             ];
 
             try {
                 const { rows } = Pool.query(createQuery, values);
                 const token = Helper.generateToken(rows[0].id);
+                cloud.v2.uploader.upload(url, { public_id: 'gifUrl'},
+                function(error, result) {
+                    console.log(result);
+                });
                 return res.status(201).send({ token });
             } catch(err) {
                 return res.status(400).send('Error while creating your gif');
