@@ -1,10 +1,7 @@
 require('dotenv').config();
+
 module.exports = {
 
-  // If using onine database
-  // development: {
-  //   use_env_variable: 'DATABASE_URL'
-  // },
 
   development: {
     database: 'teamapi',
