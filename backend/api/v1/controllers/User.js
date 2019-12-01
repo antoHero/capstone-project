@@ -9,17 +9,17 @@ const User = {
    */
   async create(req, res) {
     if (!req.body.email || !req.body.password) {
-      return res.status(400).send({'message': 'Some values are missing'});
+      return res.status(400).json({'message': 'Some values are missing'});
     }
     if (!Helper.emailIsValid(req.body.email)) {
-      return res.status(400).send({ 'message': 'Invalid Email. Enter a valid one' });
+      return res.status(400).json({ 'message': 'Invalid Email. Enter a valid one' });
     }
     const hashPassword = Helper.hashUserPassword(req.body.password);
 
     const createQuery = `INSERT INTO
-      users(id, firstname, lastname, email, password, gender, jobRole, 
+      users(firstname, lastname, email, password, gender, jobRole, 
         department, address)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8)
       returning *`;
     const values = [
       req.body.firstname,
@@ -35,12 +35,12 @@ const User = {
     try {
       const { rows } = await db.query(createQuery, values);
       const token = Helper.generateToken(rows[0].id);
-      return res.status(201).send({ token });
+      return res.status(201).json({ token });
     } catch(error) {
       if (error.routine === '_bt_check_unique') {
-        return res.status(400).send({ 'message': 'This EMAIL has already been taken' })
+        return res.status(400).json({ 'message': 'This EMAIL has already been taken' })
       }
-      return res.status(400).send(error);
+      return res.status(400).json({error});
     }
   },
 
@@ -51,7 +51,7 @@ const User = {
       const { rows, rowCount } = await db.query(queryText);
       return res.status(200).json({rows, rowCount});
     } catch(err) {
-      return res.status(400).send(`Couldn't fetch users`);
+      return res.status(400).json({message: `Couldn't fetch users`});
     }
   },
   getOneUser(req, res) {
@@ -86,7 +86,7 @@ const User = {
         if(error) {
             return res.status(400).json({error:error})
         }
-        return res.status(201).send('User updated successfully')
+        return res.status(201).json({message: 'User updated successfully'})
     });
   },
   deleteUser(req, res) {
@@ -96,7 +96,7 @@ const User = {
         if(error) {
             return res.status(400).json({error:error})
         }
-        return res.status(200).send('User deleted successfully')
+        return res.status(200).json({message: 'User deleted successfully'})
     });
   },
 
