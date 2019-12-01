@@ -28,8 +28,9 @@ app.get('/', (request, response) => {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1/images', express.static('images'));
 
-app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/articles', articleRoutes);
+app.use('/api/v1/users', userRoutes);
+
 app.use('/api/v1/gifs', gifRoutes);
 /* router.get('api/v1/user', userCtrl.getUsers);
 router.get('api/v1/users/:id', userCtrl.id);
