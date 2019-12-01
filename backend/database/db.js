@@ -6,7 +6,7 @@ module.exports = {
   development: {
     database: 'teamapi',
     username: 'zizoh',
-    password: null,
+    password: 'password',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
@@ -14,7 +14,7 @@ module.exports = {
   test: {
     database: 'teamapi',
     username: 'zizoh',
-    password: null,
+    password: 'password',
     host: '127.0.0.1',
     dialect: 'postgres'
   },

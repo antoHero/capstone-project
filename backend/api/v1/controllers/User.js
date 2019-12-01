@@ -1,4 +1,4 @@
-const db = require('../../../database/db');
+const db = require('../../../database/database');
 const Pool = require('pg').Pool
 
 const Helper = require('./Helper');
@@ -46,7 +46,7 @@ const User = {
 
   //get users
   async getUsers(req, res) {
-    const queryText = 'SELECT * FROM users ORDER BY id ASC';
+    const queryText = 'SELECT * FROM users ORDER BY id DESC';
     try {
       const { rows, rowCount } = await db.query(queryText);
       return res.status(200).json({rows, rowCount});
@@ -54,26 +54,24 @@ const User = {
       return res.status(400).json({message: `Couldn't fetch users`});
     }
   },
-  getOneUser(req, res) {
+  async getOneUser(req, res) {
         const id = parseInt(req.params.id);
-        pool.query('SELECT * FROM users WHERE id=$1', [id], 
-        (error, results) => {
-            if(error){
-                return res.status(400).json({error:error})
-            }
-            return res.status(200).json(results.rows)
-        });
+        const queryText = 'SELECT * FROM users WHERE id=$1';
+        try {
+          const { rows } = await db.query(queryText, [req.params.id]);
+          if(!rows[0]) {
+            return res.status(404).json({
+              message: 'Oops User does not exist'
+            });
+            
+          }
+          return res.status(200).json(rows[0]);
+        } catch(err) {
+          return res.status(404).json({err});
+        }
+      
     },
-  getOneUser(req, res) {
-    const id = parseInt(req.params.id);
-    pool.query('SELECT * FROM users WHERE id=$1', [id], 
-    (error, results) => {
-      if(error){
-          return res.status(400).json({error:error})
-      }
-      return res.status(200).json(results.rows)
-    });
-  },
+
   updateUser(req, res) {
     const id = parseInt(req.params.id);
     const { firstname, lastname, email, gender, jobRole, department,
