@@ -1,8 +1,5 @@
 const multer = require('multer');
 
-const storage = () => {
-
-}
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
         if(file.mimetype === 'image/gif') {
