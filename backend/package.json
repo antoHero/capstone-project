@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "test": "export NODE_ENV=test && mocha ./api/v1/test/test.js --timeout 20000 --exit",
-    "build": "rm -rf ./build && babel -d ./build ./api -s",
+    "build": "rm -rf ./script && babel -d ./script ./api -s",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
