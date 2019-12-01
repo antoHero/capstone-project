@@ -315,8 +315,9 @@ describe('Testing the endpoints', () => {
               .equal('Article found !');
             response.body.should.have.property('data');
             response.body.data.should.be.an('Object');
+            done();
           });
-        done();
+        
       });
     
       it('should get feeds', (done) => {
@@ -329,8 +330,9 @@ describe('Testing the endpoints', () => {
             response.body.should.have.property('message')
               .equal('Success');
             response.body.should.have.property('data');
+            done();
           });
-        done();
+        
       });
     
       it('It should delete article', (done) => {
@@ -340,8 +342,9 @@ describe('Testing the endpoints', () => {
           .set('Accept', 'application/json')
           .end((request, response) => {
             response.status.should.equal(204);
+            done();
           });
-        done();
+        
       });
     
       it('It should fail to delete article', (done) => {
@@ -354,8 +357,9 @@ describe('Testing the endpoints', () => {
               .equal(404);
             response.body.should.have.property('message')
               .equal('Article Not Found !!');
+              done();
           });
-        done();
+        
       });
     
       it('It should fail to add comment', (done) => {
@@ -368,8 +372,9 @@ describe('Testing the endpoints', () => {
           .end((request, response) => {
             response.body.should.have.property('status')
               .equal(422);
+              done();
           });
-        done();
+        
       });
     
       it('It should add a comment', (done) => {
@@ -384,8 +389,9 @@ describe('Testing the endpoints', () => {
               .equal(201);
             response.body.should.have.property('message').equal('Comment successfully added.');
             response.body.data.should.have.property('comment').equal(comment);
+            done();
           });
-        done();
+       
       });
     
       it('It should fail to update article', (done) => {
@@ -402,8 +408,9 @@ describe('Testing the endpoints', () => {
             response.body.should.have.property('status')
               .equal(404);
             response.body.should.have.property('message').equal('Article not found !');
+            done();
           });
-        done();
+        
       });
     
       it('It should fail to update article', (done) => {
@@ -415,8 +422,9 @@ describe('Testing the endpoints', () => {
           .end((request, response) => {
             response.body.should.have.property('status')
               .equal(422);
+              done();
           });
-        done();
+        
       });
     
       it('It should edit article', (done) => {
@@ -440,8 +448,9 @@ describe('Testing the endpoints', () => {
               .equal(data.title);
             response.body.data.should.have.property('article')
               .equal(data.article);
+              done();
           });
-        done();
+       
       });
     
       it('It should not find article, wrong tag', () => {
@@ -454,6 +463,7 @@ describe('Testing the endpoints', () => {
               .equal(404);
             response.body.should.have.property('message')
               .equal('No articles found !');
+              done();
           });
       });
     
@@ -468,6 +478,7 @@ describe('Testing the endpoints', () => {
             response.body.should.have.property('message')
               .equal('Success');
             response.body.data.should.be.an('Array');
+            done();
           });
       });
     
@@ -481,6 +492,7 @@ describe('Testing the endpoints', () => {
               .equal(404);
             response.body.should.have.property('message')
               .equal('No articles found !');
+              done();
           });
       });
     
@@ -495,6 +507,7 @@ describe('Testing the endpoints', () => {
             response.body.should.have.property('message')
               .equal('Success');
             response.body.data.should.be.an('Array');
+            done();
           });
       });    
 
