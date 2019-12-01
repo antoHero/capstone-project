@@ -6,7 +6,7 @@ const Helper = require('./Helper');
 const Article = {
     createArticle(req, res) {
         if(!req.body.title || !req.body.article) {
-            return res.status(400).send('Some fields are missing');
+            return res.status(400).json({message: 'Some fields are missing'});
         }
         const id = parseInt(req.params.id);
         const createQuery = `INSERT INTO articles(title, article, 
@@ -22,9 +22,9 @@ const Article = {
             try {
                 const { rows } = Pool.query(createQuery, values);
                 const token = Helper.generateToken(rows[0].id);
-                return res.status(201).send({ token });
+                return res.status(201).json({ token });
             } catch(err) {
-                return res.status(400).send('Error while creating your article');
+                return res.status(400).json({message: 'Error while creating your article'});
             }
 
     },
@@ -35,7 +35,7 @@ const Article = {
             const { rows, rowCount } = await db.query(queryText);
             return res.status(200).json({rows, rowCount});
         } catch(err) {
-            return res.status(400).send(`Couldn't fetch articles`);
+            return res.status(400).json({message: `Couldn't fetch articles`});
         }
     },
 
@@ -113,7 +113,7 @@ const Article = {
                 message: 'Successfully added comment'
             });
         } catch(error) {
-            return res.status(400).send(error);
+            return res.status(400).json({error});
         }
 
     }

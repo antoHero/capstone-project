@@ -9,7 +9,7 @@ const Gif = {
         const url = req.protocol + '://' + req.get('host');
         const gifUrl = url + '../images/' + req.file.filename
         if(!req.body.title || !req.body.gifUrl) {
-            return res.status(400).send('Some fields are missing');
+            return res.status(400).json({message: 'Some fields are missing'});
         }
         const id = parseInt(req.params.id);
         const createQuery = `INSERT INTO gifs(title, gifUrl, user_id) 
@@ -28,9 +28,9 @@ const Gif = {
                 function(error, result) {
                     console.log(result);
                 });
-                return res.status(201).send({ token });
+                return res.status(201).json({ token });
             } catch(err) {
-                return res.status(400).send('Error while creating your gif');
+                return res.status(400).json({message: 'Error while creating your gif'});
             }
 
     },
@@ -41,7 +41,7 @@ const Gif = {
             const { rows, rowCount } = await db.query(queryText);
             return res.status(200).json({rows, rowCount});
         } catch(err) {
-            return res.status(400).send(`Couldn't fetch gifs`);
+            return res.status(400).send({message: `Couldn't fetch gifs`});
         }
     },
 
